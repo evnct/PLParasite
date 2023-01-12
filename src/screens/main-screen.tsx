@@ -1,43 +1,33 @@
 import { Text, View } from 'native-base'
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ILeague } from '../models/League';
-import { IStanding } from '../models/Standing';
+import { fetchLeagueData } from '../api';
+import { ITeam } from '../models/Standing';
 
 export default function MainScreen() {
-    const [leagueData, setLeagueData] = useState<ILeague | null>(null);
-    const [standingsData, setStandingsData] = useState<IStanding[] | null>(null);
+    const [tottenhamData, setTottenhamData] = useState<ITeam | null>(null);
 
     useEffect(() => {
+        // Fetch the league data
         async function fetchData() {
-            try {
-                const response = await axios.get<ILeague>('https://api-football-standings.azharimm.dev/leagues/eng.1/standings?season=2022&sort=asc');
-                setLeagueData(response.data);
-                setStandingsData(response.data.data.standings);
-            } catch (error) {
-                console.error(error);
+            const leagueData = await fetchLeagueData();
+            if (leagueData) {
+                // Filter the data to only get Tottenham's data
+                const tottenhamData = leagueData.data.standings.filter(standing => standing.team.id === '367')[0].team;
+                setTottenhamData(tottenhamData);
             }
         }
         fetchData();
     }, []);
 
-    if (!leagueData) {
+    if (!tottenhamData) {
         return <Text>Loading...</Text>;
     }
 
-
     return (
         <View>
-            <Text>{leagueData.data.name}</Text>
-            <Text>Number of teams in league: {standingsData?.length || "Loading..."}</Text>
-            {standingsData ?
-                standingsData.map((standing, index) => {
-                    // Using index + 1 due to api having issue with note.rank
-                    // Im improvising :)
-                    return <Text key={index}>{index + 1}. {standing.team.displayName}</Text>
-                })
-                : <Text>Loading...</Text>
-            }
+            <Text>Tottenham Data</Text>
+            <Text>Team Name: {tottenhamData.displayName}</Text>
+            <Text>Team Location: {tottenhamData.location}</Text>
         </View>
     );
-};
+}
