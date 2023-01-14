@@ -1,7 +1,7 @@
-import { Text, View } from 'native-base'
+import { Text, View, Box, Center } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
-import { IStanding, ITeam, Stats } from '../models/Standing';
+import { IStanding, ITeam, IStats, IRank } from '../models/Standing';
 
 export default function MainScreen() {
     const [tottenhamData, setTottenhamData] = useState<IStanding | null>(null);
@@ -22,16 +22,46 @@ export default function MainScreen() {
     }
 
     const tottenhamTeam: ITeam = tottenhamData.team;
-    const tottenhamStats: Stats[] = tottenhamData.stats;
+
+    const rank: IRank = { value: tottenhamData.stats.filter(stat => stat.name === "rank")[0].value };
+
+    const DisplayRank = () => {
+        if (rank.value > 3) {
+            return (
+                <Text>{rank.value}th</Text>
+            )
+        } else if (rank.value === 1) {
+            return (
+                <Text>{rank.value}st</Text>
+            )
+        } else if (rank.value === 2) {
+            return (
+                <Text>{rank.value}nd</Text>
+            )
+        }
+        else if (rank.value === 3) {
+            return (
+                <Text>{rank.value}rd</Text>
+            )
+        }
+        else
+            return <Text>Invalid rank</Text>
+    }
 
     return (
         <View>
-            <Text>Tottenham Data</Text>
-            <Text>Team Name: {tottenhamTeam.displayName}</Text>
-            <Text>Team Location: {tottenhamTeam.location}</Text>
-            {tottenhamStats.map(stat => (
-                <Text key={stat.name}>{stat.displayName}: {stat.displayValue}</Text>
-            ))}
-        </View>
+            <Box borderRadius={'full'}
+                borderColor={'#488CCA'}
+                borderWidth={4}
+                width={20}
+                height={20}
+                alignItems={'center'}
+                justifyContent={'center'}>
+                <Text fontSize={32} fontWeight={900}>
+                    <DisplayRank />
+                </Text>
+            </Box>
+            <Text> Team Name: {tottenhamTeam.displayName}</Text>
+        </View >
     );
 }

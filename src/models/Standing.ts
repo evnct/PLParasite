@@ -1,6 +1,6 @@
 export interface IStanding {
     team: ITeam;
-    stats: Stats[];
+    stats: IStats[];
 };
 
 export interface ITeam {
@@ -23,7 +23,7 @@ export interface ITeam {
     isNational: boolean;
 };
 
-export interface Stats {
+export interface IStats {
     name: string;
     displayName: string;
     shortDisplayName: string;
@@ -31,4 +31,8 @@ export interface Stats {
     abbreviation: string;
     value: number;
     displayValue: string;
+}
+
+export interface IRank {
+    value: number;
 }
