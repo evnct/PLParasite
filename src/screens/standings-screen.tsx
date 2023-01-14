@@ -15,6 +15,8 @@ export default function StandingsScreen() {
         fetchData();
     }, []);
 
+    // function that will iterate through ITeam stats list of object.
+
     if (!leagueData) {
         return <Text>Loading...</Text>;
     }
@@ -24,9 +26,9 @@ export default function StandingsScreen() {
             <Text>Leaderboard</Text>
             <Text>{leagueData.data.name}</Text>
             <Text>Season: {leagueData.data.seasonDisplay}</Text>
-            {/* Map through the standings data and display the team name */}
             {leagueData.data.standings.map((standing, index) => {
-                return <Text key={index}>{index + 1}. {standing.team.displayName}</Text>
+                const teamWins = standing.stats.find(stat => stat.name === 'wins')?.value;
+                return <Text key={index}>{index + 1}. {standing.team.displayName} - {teamWins} wins</Text>
             })}
         </View>
     );

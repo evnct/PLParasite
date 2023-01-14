@@ -1,5 +1,6 @@
 export interface IStanding {
     team: ITeam;
+    stats: Stats[];
 };
 
 export interface ITeam {
@@ -21,3 +22,13 @@ export interface ITeam {
     }[];
     isNational: boolean;
 };
+
+export interface Stats {
+    name: string;
+    displayName: string;
+    shortDisplayName: string;
+    description: string;
+    abbreviation: string;
+    value: number;
+    displayValue: string;
+}
