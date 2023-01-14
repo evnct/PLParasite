@@ -15,8 +15,6 @@ export default function StandingsScreen() {
         fetchData();
     }, []);
 
-    // function that will iterate through ITeam stats list of object.
-
     if (!leagueData) {
         return <Text>Loading...</Text>;
     }

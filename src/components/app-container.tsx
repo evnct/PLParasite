@@ -12,7 +12,7 @@ export default function AppContainer(props: Props) {
         <NavigationContainer>
             <NativeBaseProvider theme={theme}>
                 <Box
-                    _dark={{ bg: '#232635' }}
+                    _dark={{ bg: '#3C3B3B' }}
                     _light={{ bg: '#FFFFFF' }}
                     px={4}
                     flex={1}>
