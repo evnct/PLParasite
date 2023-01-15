@@ -1,15 +1,15 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
-import { IPoints, IPointDifferential, IPointsAgainst, IPointsFor, IStanding } from '../../models/Standing'
-import { Box, Text, Row, VStack, HStack, Container, Center, Spacer } from 'native-base';
+import { IPoints, IStanding } from '../../models/Standing'
+import { Box, Text, Row, VStack, HStack, Container, Center } from 'native-base';
 
 export default function Points({ tottenhamData }: { tottenhamData: IStanding }) {
 
     // Get the rank from the stats array
-    const points: IPoints = { value: tottenhamData.stats.filter(stat => stat.name === "points")[0].value };
-    const pointsFor: IPointsFor = { value: tottenhamData.stats.filter(stat => stat.name === "pointsFor")[0].value };
-    const pointsAgainst: IPointsAgainst = { value: tottenhamData.stats.filter(stat => stat.name === "pointsAgainst")[0].value };
-    const pointDifferential: IPointDifferential = { value: tottenhamData.stats.filter(stat => stat.name === "pointDifferential")[0].value };
+    const points: IPoints = { value: tottenhamData.stats.filter(stat => stat.name === "points")[0].value, };
+    const pointsFor: IPoints = { value: tottenhamData.stats.filter(stat => stat.name === "pointsFor")[0].value, };
+    const pointsAgainst: IPoints = { value: tottenhamData.stats.filter(stat => stat.name === "pointsAgainst")[0].value, };
+    const pointDifferential: IPoints = { value: tottenhamData.stats.filter(stat => stat.name === "pointDifferential")[0].value, };
 
     const boxStyle = StyleSheet.create({
         Box: {

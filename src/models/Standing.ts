@@ -42,20 +42,6 @@ export interface IOverall {
     summary: string;
 }
 
-{/* ALL THAT INVOLVE POINTS IN THE JSON */}
-
 export interface IPoints {
-    value: number;
-}
-
-export interface IPointsAgainst { 
-    value: number;
-}
-
-export interface IPointsFor { 
-    value: number;
-}
-
-export interface IPointDifferential {
     value: number;
 }
