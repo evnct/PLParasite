@@ -8,10 +8,11 @@ export default function Overall({ tottenhamData }: { tottenhamData: IStanding })
     const overall: IOverall = { summary: tottenhamData.stats.filter(stat => stat.name === "overall")[0].summary };
 
     return (
-        <View mt={4} mx={2}>
+        <>
             <Text fontSize={24} fontWeight={900}>Overall</Text>
             <Center>
-                <HStack borderRadius={'10px'}
+                <HStack
+                    borderRadius={'10px'}
                     borderColor={'#488CCA'}
                     borderWidth={4}
                     width={'full'}
@@ -24,6 +25,6 @@ export default function Overall({ tottenhamData }: { tottenhamData: IStanding })
                     <Text position="absolute" bottom={0} right={8}>W | L | D</Text>
                 </HStack>
             </Center>
-        </View>
+        </>
     )
 }

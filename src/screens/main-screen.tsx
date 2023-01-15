@@ -4,6 +4,7 @@ import { fetchLeagueData } from '../api';
 import { IStanding, ITeam } from '../models/Standing';
 import Rank from '../components/stats/rank';
 import Overall from '../components/stats/overall';
+import Points from '../components/stats/points';
 
 export default function MainScreen() {
     const [tottenhamData, setTottenhamData] = useState<IStanding | null>(null);
@@ -29,6 +30,7 @@ export default function MainScreen() {
         <View>
             <Rank tottenhamData={tottenhamData} />
             <Overall tottenhamData={tottenhamData} />
+            <Points tottenhamData={tottenhamData} />
         </View >
     );
 }
