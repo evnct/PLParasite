@@ -1,8 +1,9 @@
-import { Text, View, Box, Center } from 'native-base'
+import { Text, View, VStack, Center, Box, SimpleGrid } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding, ITeam } from '../models/Standing';
 import Rank from '../components/stats/rank';
+import Overall from '../components/stats/overall';
 
 export default function MainScreen() {
     const [tottenhamData, setTottenhamData] = useState<IStanding | null>(null);
@@ -26,18 +27,8 @@ export default function MainScreen() {
 
     return (
         <View>
-            <Box borderRadius={'full'}
-                borderColor={'#488CCA'}
-                borderWidth={4}
-                width={20}
-                height={20}
-                alignItems={'center'}
-                justifyContent={'center'}>
-                <Text fontSize={32} fontWeight={900}>
-                    <Rank tottenhamData={tottenhamData} />
-                </Text>
-            </Box>
-            <Text> Team Name: {tottenhamTeam.displayName}</Text>
+            <Rank tottenhamData={tottenhamData} />
+            <Overall tottenhamData={tottenhamData} />
         </View >
     );
 }

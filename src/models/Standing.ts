@@ -24,6 +24,7 @@ export interface ITeam {
 };
 
 export interface IStats {
+    summary: any;
     name: string;
     displayName: string;
     shortDisplayName: string;
@@ -35,4 +36,8 @@ export interface IStats {
 
 export interface IRank {
     value: number;
+}
+
+export interface IOverall {
+    summary: string;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from 'native-base'
+import { Box, Text } from 'native-base'
 import { IRank, IStanding } from '../../models/Standing';
 
 export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
@@ -27,8 +27,19 @@ export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
     }
 
     return (
-        <Text fontSize={32} fontWeight={900}>
-            <DisplayRank />
-        </Text>
+        <>
+            <Text fontSize={24} fontWeight={900}>Rank</Text>
+            <Box borderRadius={'full'}
+                borderColor={'#488CCA'}
+                borderWidth={4}
+                width={20}
+                height={20}
+                alignItems={'center'}
+                justifyContent={'center'}>
+                <Text fontSize={32} fontWeight={900}>
+                    <DisplayRank />
+                </Text>
+            </Box>
+        </>
     )
 }
