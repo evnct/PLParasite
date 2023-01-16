@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
 import { IPoints, IStanding } from '../../models/Standing'
-import { Box, Text, Row, VStack, HStack, Container, Center } from 'native-base';
+import { Box, Text, Row, VStack, HStack, Container, Center, Heading } from 'native-base';
 
 export default function Points({ tottenhamData }: { tottenhamData: IStanding }) {
 
@@ -34,13 +34,13 @@ export default function Points({ tottenhamData }: { tottenhamData: IStanding }) 
             <VStack>
                 <HStack space={20} justifyContent="center">
                     <Container style={boxStyle.Container}>
-                        <Text fontSize={20} fontWeight={900}>Points</Text>
+                        <Heading>Points</Heading>
                         <Box style={boxStyle.Box}>
                             <Text fontSize={30} fontWeight={900}>{points.value}</Text>
                         </Box>
                     </Container>
                     <Container style={boxStyle.Container}>
-                        <Text fontSize={20} fontWeight={900}>Points For</Text>
+                        <Heading>Points For</Heading>
                         <Box style={boxStyle.Box}>
                             <Text fontSize={30} fontWeight={900}>{pointsFor.value}</Text>
                         </Box>
@@ -48,13 +48,13 @@ export default function Points({ tottenhamData }: { tottenhamData: IStanding }) 
                 </HStack>
                 <HStack space={5} justifyContent="center" mt={4}>
                     <Container style={boxStyle.Container}>
-                        <Text fontSize={20} fontWeight={900}>Points Against</Text>
+                        <Heading>Points Against</Heading>
                         <Box style={boxStyle.Box}>
                             <Text fontSize={30} fontWeight={900}>{pointsAgainst.value}</Text>
                         </Box>
                     </Container>
                     <Container style={boxStyle.Container}>
-                        <Text fontSize={20} fontWeight={900}>Point Differential</Text>
+                        <Heading>Point Differential</Heading>
                         <Box style={boxStyle.Box}>
                             <Text fontSize={30} fontWeight={900}>{pointDifferential.value}</Text>
                         </Box>

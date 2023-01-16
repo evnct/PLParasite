@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text } from 'native-base'
+import { Box, Text, Heading, VStack, Center } from 'native-base';
 import { IRank, IStanding } from '../../models/Standing';
 
 export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
@@ -12,7 +12,7 @@ export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
     const DisplayRank = () => {
         switch (rank.value) {
             case 1:
-                return <Text>{rank.value}st</Text>;
+                return <Text>{rank.value}st/</Text>;
             case 2:
                 return <Text>{rank.value}nd</Text>;
             case 3:
@@ -28,18 +28,22 @@ export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
 
     return (
         <>
-            <Text fontSize={24} fontWeight={900}>Rank</Text>
-            <Box borderRadius={'full'}
-                borderColor={'#488CCA'}
-                borderWidth={4}
-                width={20}
-                height={20}
-                alignItems={'center'}
-                justifyContent={'center'}>
-                <Text fontSize={32} fontWeight={900}>
-                    <DisplayRank />
-                </Text>
-            </Box>
+            <VStack>
+                <Center>
+                    <Heading>Rank</Heading>
+                    <Box borderRadius={'full'}
+                        borderColor={'#488CCA'}
+                        borderWidth={4}
+                        width={20}
+                        height={20}
+                        alignItems={'center'}
+                        justifyContent={'center'}>
+                        <Heading size="xl">
+                            <DisplayRank />
+                        </Heading>
+                    </Box>
+                </Center>
+            </VStack>
         </>
     )
 }
