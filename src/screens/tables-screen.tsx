@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
 
-export default function StandingsScreen() {
+export default function TablesScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
 
     useEffect(() => {

@@ -2,10 +2,10 @@ import { View, Text, Box, HStack, Center, Heading } from 'native-base';
 import React from 'react'
 import { IOverall, IStanding } from '../../models/Standing'
 
-export default function Overall({ tottenhamData }: { tottenhamData: IStanding }) {
+export default function Overall({ selectedTeamData }: { selectedTeamData: IStanding }) {
 
     // Get the rank from the stats array
-    const overall: IOverall = { summary: tottenhamData.stats.filter(stat => stat.name === "overall")[0].summary };
+    const overall: IOverall = { summary: selectedTeamData.stats.filter(stat => stat.name === "overall")[0].summary };
 
     return (
         <View mt={4} mb={4}>

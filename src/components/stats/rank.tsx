@@ -2,17 +2,17 @@ import React from 'react'
 import { Box, Text, Heading, VStack, Center } from 'native-base';
 import { IRank, IStanding } from '../../models/Standing';
 
-export default function Rank({ tottenhamData }: { tottenhamData: IStanding }) {
+export default function Rank({ selectedTeamData }: { selectedTeamData: IStanding }) {
 
     // Get the rank from the stats array
-    const rank: IRank = { value: tottenhamData.stats.filter(stat => stat.name === "rank")[0].value };
+    const rank: IRank = { value: selectedTeamData.stats.filter(stat => stat.name === "rank")[0].value };
 
     /// This function will display the rank in the correct format
     /// Premier League has 20 teams, so no need to worry abput 21st, 22nd, etc.
     const DisplayRank = () => {
         switch (rank.value) {
             case 1:
-                return <Text>{rank.value}st/</Text>;
+                return <Text>{rank.value}st</Text>;
             case 2:
                 return <Text>{rank.value}nd</Text>;
             case 3:
