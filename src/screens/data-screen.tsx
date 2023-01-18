@@ -1,16 +1,19 @@
 import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select, Spinner, useColorMode } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
-import { IStanding } from '../models/Standing';
+import { IStanding, ISeasons } from '../models/Standing';
 import Rank from '../components/stats/rank';
 import Overall from '../components/stats/overall';
 import Points from '../components/stats/points';
 import { ILeague } from '../models/League';
+import { all } from 'axios';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
     const [selectedTeamData, setSelectedTeamData] = useState<IStanding | null>(null);
+    const [seasons, setSeasons] = useState<string[]>([]);
     const [team, setTeam] = useState('');
+
     const isFirstMount = useRef(true);
 
     const allTeams = async () => {
@@ -28,8 +31,18 @@ export default function DataScreen() {
         }
     }
 
+    const allSeasons = () => {
+        const currentYear = new Date().getFullYear();
+        let seasonsList: string[] = [];
+        for (let i = 2001; i <= currentYear; i++) {
+            seasonsList.push(`${i} - ${i + 1}`);
+        }
+        setSeasons(seasonsList);
+    }
+
     useEffect(() => {
         allTeams();
+        allSeasons();
     }, [team]);
 
     if (!selectedTeamData || !leagueData) {
@@ -43,19 +56,31 @@ export default function DataScreen() {
             <VStack>
                 <Center>
                     <HStack reversed space={10}>
-                        <Center>
+                        <VStack space={1}>
+                            <Text>Select Season</Text>
+                            <Box maxWidth={200} >
+                                <Select selectedValue={seasons[seasons.length - 1]} minWidth="200" accessibilityLabel="Choose Season" placeholder="Choose Season" _selectedItem={{
+                                    bg: "#A065AB",
+                                }} onValueChange={itemValue => setTeam(itemValue)}>
+                                    {/* Listing selectable seasons in reverse chronological order */}
+                                    {seasons.map((season, index) =>
+                                        <Select.Item key={index} label={season} value={season} />
+                                    )}
+                                </Select>
+                            </Box>
                             <Text>Select Team</Text>
                             <Box maxWidth={200} >
                                 <Select selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
                                     bg: "#A065AB",
-                                }} mt={1} onValueChange={itemValue => setTeam(itemValue)}>
+                                }} onValueChange={itemValue => setTeam(itemValue)}>
                                     {/* Listing selectable teams in alphabetical order */}
                                     {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
                                         <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
                                     )}
                                 </Select>
                             </Box>
-                        </Center>
+
+                        </VStack>
                         <Rank selectedTeamData={selectedTeamData} />
                     </HStack>
                 </Center>

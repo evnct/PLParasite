@@ -45,3 +45,7 @@ export interface IOverall {
 export interface IPoints {
     value: number;
 }
+
+export interface ISeasons {
+  season: string[];
+}

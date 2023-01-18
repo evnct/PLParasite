@@ -1,4 +1,4 @@
-import { Center, Text, View } from 'native-base'
+import { Center, Spinner, Text, View } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
@@ -17,7 +17,9 @@ export default function TablesScreen() {
     }, []);
 
     if (!leagueData) {
-        return <Text>Loading...</Text>;
+        return <Center flex={1}>
+            <Spinner size="lg" color="#A065AB" />
+        </Center>
     }
 
     return (

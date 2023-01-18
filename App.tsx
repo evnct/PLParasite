@@ -9,7 +9,7 @@ export default function App() {
   return (
     <AppContainer>
       <Box mt={50} />
-      <TablesScreen />
+      <DataScreen />
     </AppContainer>
   );
 }
