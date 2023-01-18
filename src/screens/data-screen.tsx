@@ -1,4 +1,4 @@
-import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select } from 'native-base';
+import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select, Spinner, useColorMode } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding } from '../models/Standing';
@@ -33,7 +33,9 @@ export default function DataScreen() {
     }, [team]);
 
     if (!selectedTeamData || !leagueData) {
-        return <Text>Loading...</Text>;
+        return <Center flex={1}>
+            <Spinner size="lg" color="#A065AB" />
+        </Center>;
     }
 
     return (
@@ -42,10 +44,10 @@ export default function DataScreen() {
                 <Center>
                     <HStack reversed space={10}>
                         <Center>
-                            <Box maxWidth={200}>
+                            <Text>Select Team</Text>
+                            <Box maxWidth={200} >
                                 <Select selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
-                                    bg: "teal.600",
-                                    endIcon: <CheckIcon size="5" />
+                                    bg: "#A065AB",
                                 }} mt={1} onValueChange={itemValue => setTeam(itemValue)}>
                                     {/* Listing selectable teams in alphabetical order */}
                                     {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>

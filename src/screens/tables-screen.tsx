@@ -1,7 +1,8 @@
-import { Text, View } from 'native-base'
+import { Center, Text, View } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
+import { SectionList } from 'react-native';
 
 export default function TablesScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -21,13 +22,18 @@ export default function TablesScreen() {
 
     return (
         <View>
-            <Text>Leaderboard</Text>
-            <Text>{leagueData.data.name}</Text>
-            <Text>Season: {leagueData.data.seasonDisplay}</Text>
-            {leagueData.data.standings.map((standing, index) => {
-                const teamWins = standing.stats.find(stat => stat.name === 'wins')?.value;
-                return <Text key={index}>{index + 1}. {standing.team.displayName} - {teamWins} wins</Text>
-            })}
+            <Center mt='12'>
+                <SectionList
+                    sections={[
+                        {
+                            data: leagueData.data.standings.map((standing, index) => {
+                                return { key: index, value: `${index + 1}. ${standing.team.displayName} ` };
+                            })
+                        }
+                    ]}
+                    renderItem={({ item }) => <Text fontSize={20}>{item.value}</Text>}
+                />
+            </Center>
         </View>
     );
 }
