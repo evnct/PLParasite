@@ -54,9 +54,8 @@ export default function DataScreen() {
         <View
             _dark={{ bg: '#21202E' }}
             _light={{ bg: '#FFFFFF' }}
-            px={4}
             flex={1}>
-            <VStack mt={20}>
+            <VStack mt='32' mx='4'>
                 <Center>
                     <HStack reversed space={10}>
                         <VStack space={1}>
