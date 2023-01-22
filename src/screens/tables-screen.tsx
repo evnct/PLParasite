@@ -23,7 +23,11 @@ export default function TablesScreen() {
     }
 
     return (
-        <View>
+        <View
+            _dark={{ bg: '#21202E' }}
+            _light={{ bg: '#FFFFFF' }}
+            px={4}
+            flex={1}>
             <Center mt='12'>
                 <SectionList
                     sections={[

@@ -6,7 +6,6 @@ import Rank from '../components/stats/rank';
 import Overall from '../components/stats/overall';
 import Points from '../components/stats/points';
 import { ILeague } from '../models/League';
-import { all } from 'axios';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -34,7 +33,7 @@ export default function DataScreen() {
     const allSeasons = () => {
         const currentYear = new Date().getFullYear();
         let seasonsList: string[] = [];
-        for (let i = 2001; i <= currentYear; i++) {
+        for (let i = 2001; i <= currentYear - 1; i++) {
             seasonsList.push(`${i} - ${i + 1}`);
         }
         setSeasons(seasonsList);
@@ -52,8 +51,12 @@ export default function DataScreen() {
     }
 
     return (
-        <View>
-            <VStack>
+        <View
+            _dark={{ bg: '#21202E' }}
+            _light={{ bg: '#FFFFFF' }}
+            px={4}
+            flex={1}>
+            <VStack mt={20}>
                 <Center>
                     <HStack reversed space={10}>
                         <VStack space={1}>
