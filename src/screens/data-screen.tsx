@@ -1,11 +1,13 @@
-import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select, Spinner, useColorMode } from 'native-base';
+import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select, Spinner, useColorMode, Button } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
-import { IStanding, ISeasons } from '../models/Standing';
+import { IStanding } from '../models/Standing';
 import Rank from '../components/stats/rank';
 import Overall from '../components/stats/overall';
 import Points from '../components/stats/points';
 import { ILeague } from '../models/League';
+import Loader from '../components/loader';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -16,17 +18,21 @@ export default function DataScreen() {
     const isFirstMount = useRef(true);
 
     const allTeams = async () => {
-        const data = await fetchLeagueData();
-        setLeagueData(data);
-        // Default team for Select component
-        if (data) {
-            const selectedTeamData = data.data.standings.filter(standing => standing.team.displayName === team)[0];
-            setSelectedTeamData(selectedTeamData);
-            // set the team state on the first mount of the component and not on the subsequent renders.
-            if (isFirstMount.current) {
-                setTeam(data.data.standings[0].team.displayName);
-                isFirstMount.current = false;
+        try {
+            const data = await fetchLeagueData();
+            setLeagueData(data);
+            // Default team for Select component
+            if (data) {
+                const selectedTeamData = data.data.standings.filter(standing => standing.team.displayName === team)[0];
+                setSelectedTeamData(selectedTeamData);
+                // set the team state on the first mount of the component and not on the subsequent renders.
+                if (isFirstMount.current) {
+                    setTeam(data.data.standings[0].team.displayName);
+                    isFirstMount.current = false;
+                }
             }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -40,15 +46,11 @@ export default function DataScreen() {
     }
 
     useEffect(() => {
-        allTeams();
-        allSeasons();
+        allTeams()
+        allSeasons()
     }, [team]);
 
-    if (!selectedTeamData || !leagueData) {
-        return <Center flex={1}>
-            <Spinner size="lg" color="#A065AB" />
-        </Center>;
-    }
+    if (!selectedTeamData || !leagueData) { return <Loader />; }
 
     return (
         <View
@@ -60,28 +62,32 @@ export default function DataScreen() {
                     <HStack reversed space={10}>
                         <VStack space={1}>
                             <Text>Select Season</Text>
-                            <Box maxWidth={200} >
-                                <Select selectedValue={seasons[seasons.length - 1]} minWidth="200" accessibilityLabel="Choose Season" placeholder="Choose Season" _selectedItem={{
-                                    bg: "#A065AB",
-                                }} onValueChange={itemValue => setTeam(itemValue)}>
+                            <Box maxWidth={200}>
+                                <Select
+                                    borderColor={'#fff'} borderWidth={2} borderRadius={'lg'}
+                                    selectedValue={seasons[seasons.length - 1]} minWidth="200"
+                                    accessibilityLabel="Choose Season" placeholder="Choose Season" _selectedItem={{
+                                        bg: "#A065AB",
+                                    }} onValueChange={itemValue => setTeam(itemValue)}>
                                     {/* Listing selectable seasons in reverse chronological order */}
                                     {seasons.map((season, index) =>
-                                        <Select.Item key={index} label={season} value={season} />
+                                        <Select.Item collapsable background={'amber.200'} key={index} label={season} value={season} />
                                     )}
                                 </Select>
                             </Box>
-                            <Text>Select Team</Text>
+                            <Text>Select a Team</Text>
                             <Box maxWidth={200} >
-                                <Select selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
-                                    bg: "#A065AB",
-                                }} onValueChange={itemValue => setTeam(itemValue)}>
+                                <Select
+                                    borderColor={'#fff'} borderWidth={2} borderRadius={'lg'}
+                                    selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
+                                        bg: "#A065AB",
+                                    }} onValueChange={itemValue => setTeam(itemValue)}>
                                     {/* Listing selectable teams in alphabetical order */}
                                     {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
                                         <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
                                     )}
                                 </Select>
                             </Box>
-
                         </VStack>
                         <Rank selectedTeamData={selectedTeamData} />
                     </HStack>
