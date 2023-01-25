@@ -17,6 +17,7 @@ export default function DataScreen() {
 
     const isFirstMount = useRef(true);
 
+    /// Fetching all the teams in the standings list
     const allTeams = async () => {
         try {
             const data = await fetchLeagueData();
@@ -36,6 +37,8 @@ export default function DataScreen() {
         }
     }
 
+    /// Fetching all the seasons in the standings list
+    {/* ISSUED  */ }
     const allSeasons = () => {
         const currentYear = new Date().getFullYear();
         let seasonsList: string[] = [];

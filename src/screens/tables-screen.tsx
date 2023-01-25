@@ -1,8 +1,8 @@
-import { Center, HStack, Text, VStack, View, Divider } from 'native-base'
+import { Center, HStack, Text, VStack, View, Divider, Box } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
-import { SectionList } from 'react-native';
+import { SectionList, Image } from 'react-native';
 import Loader from '../components/loader';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -30,7 +30,6 @@ export default function TablesScreen() {
                     data: leagueData.data.standings.map((standing, index) => {
                         let gamesPlayed = 0;
                         let points = 0;
-
                         standing.stats.forEach((stat) => {
                             switch (stat.name) {
                                 case "gamesPlayed":
@@ -46,6 +45,7 @@ export default function TablesScreen() {
                         return {
                             key: index, value: {
                                 teamName: standing.team.displayName,
+                                teamIcon: standing.team.logos[0].href,
                                 gamesPlayed: gamesPlayed,
                                 points: points
                             }
@@ -55,7 +55,13 @@ export default function TablesScreen() {
             ]}
             renderItem={({ item, index }) => (
                 <VStack p='2'>
-                    <Text fontSize={32}>{`${index + 1} ${item.value.teamName}`}</Text>
+                    <HStack space={4}>
+                        <Image source={{
+                            uri: item.value.teamIcon,
+                            cache: 'only-if-cached',
+                        }} style={{ width: 50, height: 50 }} />
+                        <Text fontSize={32}>{`${index + 1} ${item.value.teamName}`}</Text>
+                    </HStack>
                     <HStack p='2'>
                         <Text fontSize={24}>Matches: {item.value.gamesPlayed} </Text>
                         <Ionicons name="checkmark-done" size={24} color="pink" />
