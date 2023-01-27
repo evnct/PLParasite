@@ -1,22 +1,22 @@
-import { Text, View, HStack, VStack, Center, Box, CheckIcon, Select, Spinner, useColorMode, Button } from 'native-base';
+import { Text, View, HStack, VStack, Center, Box, Select, Heading } from 'native-base';
+import { Image, ImageBackground, Platform } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding } from '../models/Standing';
-import Rank from '../components/stats/rank';
-import Overall from '../components/stats/overall';
-import Points from '../components/stats/points';
 import { ILeague } from '../models/League';
 import Loader from '../components/loader';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
+import Stats from '../components/stats';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
     const [selectedTeamData, setSelectedTeamData] = useState<IStanding | null>(null);
-    const [seasons, setSeasons] = useState<string[]>([]);
     const [team, setTeam] = useState('');
 
     const isFirstMount = useRef(true);
 
+    const blur = require('../../assets/data-screen-icons/logoBlur.png');
+
+    /// Fetching all the teams in the standings list
     const allTeams = async () => {
         try {
             const data = await fetchLeagueData();
@@ -36,64 +36,54 @@ export default function DataScreen() {
         }
     }
 
-    const allSeasons = () => {
-        const currentYear = new Date().getFullYear();
-        let seasonsList: string[] = [];
-        for (let i = 2001; i <= currentYear - 1; i++) {
-            seasonsList.push(`${i} - ${i + 1}`);
-        }
-        setSeasons(seasonsList);
-    }
-
     useEffect(() => {
         allTeams()
-        allSeasons()
     }, [team]);
 
     if (!selectedTeamData || !leagueData) { return <Loader />; }
 
+    const teamLogo = () => (
+        <Box alignItems={'center'} justifyContent={'center'}>
+            <ImageBackground source={blur} style={{ width: 225, height: 225, position: 'absolute', zIndex: 0 }} />
+            <Box width={100} height={100} borderWidth={4} borderRadius={'full'} bg={'#fff'} borderColor={'#5849FF'} alignItems={'center'} justifyContent={'center'} shadow='5'>
+                <Image source={{
+                    uri: selectedTeamData?.team.logos[0].href,
+                    cache: 'force-cache',
+                }} style={{
+                    width: 70, height: 70,
+                    resizeMode: 'contain',
+                    zIndex: 1,
+                }} />
+            </Box>
+        </Box>
+    )
+
     return (
-        <View
-            _dark={{ bg: '#21202E' }}
-            _light={{ bg: '#FFFFFF' }}
-            flex={1}>
-            <VStack mt='32' mx='4'>
+        <View _dark={{ bg: '#30355E' }} flex={1} zIndex={1}>
+            <VStack mt='20' mx='4'>
                 <Center>
-                    <HStack reversed space={10}>
-                        <VStack space={1}>
-                            <Text>Select Season</Text>
-                            <Box maxWidth={200}>
-                                <Select
-                                    borderColor={'#fff'} borderWidth={2} borderRadius={'lg'}
-                                    selectedValue={seasons[seasons.length - 1]} minWidth="200"
-                                    accessibilityLabel="Choose Season" placeholder="Choose Season" _selectedItem={{
-                                        bg: "#A065AB",
-                                    }} onValueChange={itemValue => setTeam(itemValue)}>
-                                    {/* Listing selectable seasons in reverse chronological order */}
-                                    {seasons.map((season, index) =>
-                                        <Select.Item collapsable background={'amber.200'} key={index} label={season} value={season} />
-                                    )}
-                                </Select>
-                            </Box>
-                            <Text>Select a Team</Text>
-                            <Box maxWidth={200} >
-                                <Select
-                                    borderColor={'#fff'} borderWidth={2} borderRadius={'lg'}
-                                    selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
-                                        bg: "#A065AB",
-                                    }} onValueChange={itemValue => setTeam(itemValue)}>
-                                    {/* Listing selectable teams in alphabetical order */}
-                                    {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
-                                        <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
-                                    )}
-                                </Select>
-                            </Box>
-                        </VStack>
-                        <Rank selectedTeamData={selectedTeamData} />
-                    </HStack>
+                    <VStack space={4} alignItems={'center'} justifyContent='center'>
+                        {teamLogo()}
+                        <Select
+                            borderWidth={0} borderRadius={'lg'} borderColor={'#E649FF'}
+                            fontSize={'xl'}
+                            dropdownIcon={
+                                <Text fontSize={'xl'} px={'2'} color={'#A065AB'}>▼</Text>
+                            }
+                            selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" bg={'#383D71'} _selectedItem={{
+                                bg: "#A065AB",
+                                endIcon: <Text fontSize={'xl'} color={'#fff'}>▼</Text>,
+                            }} onValueChange={itemValue => setTeam(itemValue)}>
+                            {/* Listing selectable teams in alphabetical order */}
+                            {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
+                                <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
+                            )}
+                        </Select>
+                        <Box borderRadius={20} h='sm' w='xs' bg='#383D71' shadow={'2'}>
+                            <Stats selectedTeamData={selectedTeamData} />
+                        </Box>
+                    </VStack>
                 </Center>
-                <Overall selectedTeamData={selectedTeamData} />
-                <Points selectedTeamData={selectedTeamData} />
             </VStack>
         </View >
     );

@@ -1,8 +1,8 @@
-import { Center, HStack, Text, VStack, View, Divider } from 'native-base'
+import { Center, HStack, Text, VStack, View, Divider, Box, Flex } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
-import { SectionList } from 'react-native';
+import { SectionList, Image } from 'react-native';
 import Loader from '../components/loader';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -28,14 +28,10 @@ export default function TablesScreen() {
             sections={[
                 {
                     data: leagueData.data.standings.map((standing, index) => {
-                        let gamesPlayed = 0;
                         let points = 0;
 
                         standing.stats.forEach((stat) => {
                             switch (stat.name) {
-                                case "gamesPlayed":
-                                    gamesPlayed = stat.value;
-                                    break;
                                 case "points":
                                     points = stat.value;
                                     break;
@@ -45,8 +41,8 @@ export default function TablesScreen() {
                         });
                         return {
                             key: index, value: {
-                                teamName: standing.team.displayName,
-                                gamesPlayed: gamesPlayed,
+                                teamName: standing.team.shortDisplayName,
+                                teamIcon: standing.team.logos[0].href,
                                 points: points
                             }
                         };
@@ -55,28 +51,28 @@ export default function TablesScreen() {
             ]}
             renderItem={({ item, index }) => (
                 <VStack p='2'>
-                    <Text fontSize={32}>{`${index + 1} ${item.value.teamName}`}</Text>
-                    <HStack p='2'>
-                        <Text fontSize={24}>Matches: {item.value.gamesPlayed} </Text>
-                        <Ionicons name="checkmark-done" size={24} color="pink" />
-                        <Text fontSize={24}> {item.value.points} Points </Text>
-                        <Ionicons name="star" size={24} color="yellow" />
-                    </HStack>
-                    <Divider />
+                    <Box bg={'30355E'} borderWidth={2} borderRadius={15} borderColor='white' p='1'>
+                        <HStack space={2} alignItems={'center'} justifyItems={'center'}>
+                            <Box bg='white' borderRadius={'full'} p='1'>
+                                <Image source={{
+                                    uri: item.value.teamIcon,
+                                    cache: 'force-cache',
+                                }} style={{ width: 50, height: 50 }} />
+                            </Box>
+                            <Text fontSize={28}>{`${index + 1} ${item.value.teamName}`}</Text>
+                            <Text fontSize={24}> {item.value.points} pts </Text>
+                        </HStack>
+                    </Box>
                 </VStack>
             )}
         />
     )
 
     return (
-        <View
-            _dark={{ bg: '#21202E' }}
-            _light={{ bg: '#FFFFFF' }}
-            px={4}
-            flex={1}>
-            <Center mt='20' mb='2'>
+        <View _dark={{ bg: '#30355E' }} px={2} flex={1}>
+            <Flex mt='10' mb='2' mx='1'>
                 {listingTable()}
-            </Center>
+            </Flex>
         </View>
     );
 }

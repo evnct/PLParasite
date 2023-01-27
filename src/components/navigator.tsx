@@ -23,8 +23,8 @@ export default function Navigator() {
                 tabBarActiveTintColor: '#A065AB',
                 tabBarInactiveTintColor: '#bfbfbf',
                 tabBarStyle: {
-                    backgroundColor: '#21202E',
-                    borderTopWidth: 0
+                    backgroundColor: '#353A6B',
+                    borderTopWidth: 0,
                 }
             })}
         >
