@@ -1,4 +1,4 @@
-import { Center, HStack, Text, VStack, View, Divider, Box } from 'native-base'
+import { Center, HStack, Text, VStack, View, Divider, Box, Flex } from 'native-base'
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
@@ -44,7 +44,7 @@ export default function TablesScreen() {
                         });
                         return {
                             key: index, value: {
-                                teamName: standing.team.displayName,
+                                teamName: standing.team.shortDisplayName,
                                 teamIcon: standing.team.logos[0].href,
                                 gamesPlayed: gamesPlayed,
                                 points: points
@@ -55,12 +55,12 @@ export default function TablesScreen() {
             ]}
             renderItem={({ item, index }) => (
                 <VStack p='2'>
-                    <HStack space={4}>
+                    <HStack space={2}>
                         <Image source={{
                             uri: item.value.teamIcon,
-                            cache: 'only-if-cached',
+                            cache: 'force-cache',
                         }} style={{ width: 50, height: 50 }} />
-                        <Text fontSize={32}>{`${index + 1} ${item.value.teamName}`}</Text>
+                        <Text fontSize={38}>{`${index + 1} ${item.value.teamName}`}</Text>
                     </HStack>
                     <HStack p='2'>
                         <Text fontSize={24}>Matches: {item.value.gamesPlayed} </Text>
@@ -80,9 +80,9 @@ export default function TablesScreen() {
             _light={{ bg: '#FFFFFF' }}
             px={4}
             flex={1}>
-            <Center mt='20' mb='2'>
+            <Flex mt='10' mb='2'>
                 {listingTable()}
-            </Center>
+            </Flex>
         </View>
     );
 }
