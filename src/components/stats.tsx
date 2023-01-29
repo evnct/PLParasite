@@ -39,8 +39,8 @@ export default function Stats({ selectedTeamData }: { selectedTeamData: IStandin
     // Filtering the stats to only show the ones we want 
     // and sorting them in the order we want
     const filteredStats = selectedTeamData.stats.filter(
-        stat => order.includes(stat.name)
-    ).sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+        stat => order.includes(stat.name))
+        .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
     return (
         <VStack>
