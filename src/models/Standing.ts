@@ -33,19 +33,3 @@ export interface IStats {
     value: number;
     displayValue: string;
 }
-
-export interface IRank {
-    value: number;
-}
-
-export interface IOverall {
-    summary: string;
-}
-
-export interface IPoints {
-    value: number;
-}
-
-export interface ISeasons {
-  season: string[];
-}

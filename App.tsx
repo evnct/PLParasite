@@ -6,6 +6,7 @@ import { StatusBar } from "native-base";
 export default function App() {
   return (
     <AppContainer >
+      <StatusBar animated translucent backgroundColor={'transparent'} />
       <Navigator />
       <StatusBar />
     </AppContainer>

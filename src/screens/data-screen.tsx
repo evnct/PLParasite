@@ -1,12 +1,11 @@
-import { Text, View, HStack, VStack, Center, Box, Select } from 'native-base';
+import { Text, View, VStack, Center, Box, Select } from 'native-base';
+import { Image, ImageBackground, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding } from '../models/Standing';
-import Rank from '../components/stats/rank';
-import Overall from '../components/stats/overall';
-import Points from '../components/stats/points';
 import { ILeague } from '../models/League';
 import Loader from '../components/loader';
+import Stats from '../components/stats';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -14,6 +13,8 @@ export default function DataScreen() {
     const [team, setTeam] = useState('');
 
     const isFirstMount = useRef(true);
+
+    const blur = require('../../assets/data-screen-icons/logoBlur.png');
 
     /// Fetching all the teams in the standings list
     const allTeams = async () => {
@@ -41,34 +42,50 @@ export default function DataScreen() {
 
     if (!selectedTeamData || !leagueData) { return <Loader />; }
 
+    const teamLogo = () => (
+        <Box alignItems={'center'} justifyContent={'center'}>
+            <ImageBackground source={blur} style={{ width: 225, height: 225, position: 'absolute', zIndex: 0 }} />
+            <Box width={100} height={100} borderWidth={4} borderRadius={'full'} bg={'#fff'} borderColor={'#5849FF'} alignItems={'center'} justifyContent={'center'} shadow='5'>
+                <Image source={{
+                    uri: selectedTeamData?.team.logos[0].href,
+                    cache: 'force-cache',
+                }} style={{
+                    width: 70, height: 70,
+                    resizeMode: 'contain',
+                    zIndex: 1,
+                }} />
+            </Box>
+        </Box>
+    )
+
     return (
-        <View
-            _dark={{ bg: '#21202E' }}
-            _light={{ bg: '#FFFFFF' }}
-            flex={1}>
+        <View _dark={{ bg: '#30355E' }} flex={1} zIndex={1}>
             <VStack mt='20' mx='4'>
                 <Center>
-                    <HStack reversed space={10}>
-                        <VStack space={1} mt='5'>
-                            <Text>Select a Team</Text>
-                            <Box maxWidth={200} >
-                                <Select
-                                    borderColor={'#fff'} borderWidth={2} borderRadius={'lg'}
-                                    selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" _selectedItem={{
-                                        bg: "#A065AB",
-                                    }} onValueChange={itemValue => setTeam(itemValue)}>
-                                    {/* Listing selectable teams in alphabetical order */}
-                                    {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
-                                        <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
-                                    )}
-                                </Select>
-                            </Box>
-                        </VStack>
-                        <Rank selectedTeamData={selectedTeamData} />
-                    </HStack>
+                    <VStack space={4} alignItems={'center'} justifyContent='center'>
+                        {teamLogo()}
+                        <Select
+                            borderWidth={0}
+                            shadow={'1'}
+                            borderRadius={'lg'}
+                            fontSize={'xl'}
+                            dropdownIcon={
+                                <Text fontSize={'xl'} px={'2'} color={'#A065AB'}>▼</Text>
+                            }
+                            selectedValue={team} minWidth="200" accessibilityLabel="Choose Team" placeholder="Choose Team" bg={'#383D71'} _selectedItem={{
+                                bg: "#A065AB",
+                                endIcon: <Text fontSize={'xl'} color={'#fff'}>▼</Text>,
+                            }} onValueChange={itemValue => setTeam(itemValue)}>
+                            {/* Listing selectable teams in alphabetical order */}
+                            {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
+                                <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} fontWeight={'black'} />
+                            )}
+                        </Select>
+                        <Box borderRadius={20} h='auto' w='xs' p='4' bg='#383D71' shadow={'2'}>
+                            <Stats selectedTeamData={selectedTeamData} />
+                        </Box>
+                    </VStack>
                 </Center>
-                <Overall selectedTeamData={selectedTeamData} />
-                <Points selectedTeamData={selectedTeamData} />
             </VStack>
         </View >
     );

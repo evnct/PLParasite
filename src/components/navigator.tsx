@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
 import DataScreen from '../screens/data-screen';
 import TablesScreen from '../screens/tables-screen';
 
@@ -15,16 +14,16 @@ export default function Navigator() {
                 tabBarShowLabel: false,
                 tabBarIcon: ({ color }) => {
                     if (route.name === 'Data') {
-                        return <Ionicons name="home-outline" size={32} color={color} />
+                        return <Ionicons name="swap-vertical" size={32} color={color} />
                     } else if (route.name === 'Table') {
-                        return <Ionicons name="list-circle-outline" size={32} color={color} />
+                        return <Ionicons name="trophy-outline" size={32} color={color} />
                     }
                 },
                 tabBarActiveTintColor: '#A065AB',
-                tabBarInactiveTintColor: '#bfbfbf',
+                tabBarInactiveTintColor: '#D7D3FF',
                 tabBarStyle: {
-                    backgroundColor: '#21202E',
-                    borderTopWidth: 0
+                    backgroundColor: '#353A6B',
+                    borderTopWidth: 0,
                 }
             })}
         >
