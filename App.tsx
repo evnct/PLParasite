@@ -8,6 +8,7 @@ export default function App() {
     <AppContainer >
       <StatusBar animated translucent backgroundColor={'transparent'} />
       <Navigator />
+      <StatusBar />
     </AppContainer>
   );
 }
