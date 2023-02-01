@@ -1,5 +1,5 @@
-import { Text, View, HStack, VStack, Center, Box, Select, Heading } from 'native-base';
-import { Image, ImageBackground, Platform } from 'react-native';
+import { Text, View, VStack, Center, Box, Select } from 'native-base';
+import { Image, ImageBackground, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding } from '../models/Standing';
@@ -65,7 +65,9 @@ export default function DataScreen() {
                     <VStack space={4} alignItems={'center'} justifyContent='center'>
                         {teamLogo()}
                         <Select
-                            borderWidth={0} borderRadius={'lg'} borderColor={'#E649FF'}
+                            borderWidth={0}
+                            shadow={'1'}
+                            borderRadius={'lg'}
                             fontSize={'xl'}
                             dropdownIcon={
                                 <Text fontSize={'xl'} px={'2'} color={'#A065AB'}>▼</Text>
@@ -76,10 +78,10 @@ export default function DataScreen() {
                             }} onValueChange={itemValue => setTeam(itemValue)}>
                             {/* Listing selectable teams in alphabetical order */}
                             {leagueData.data.standings.sort((a, b) => a.team.shortDisplayName.localeCompare(b.team.displayName)).map((standing, index) =>
-                                <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} />
+                                <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} fontWeight={'black'} />
                             )}
                         </Select>
-                        <Box borderRadius={20} h='sm' w='xs' bg='#383D71' shadow={'2'}>
+                        <Box borderRadius={20} h='auto' w='xs' p='4' bg='#383D71' shadow={'2'}>
                             <Stats selectedTeamData={selectedTeamData} />
                         </Box>
                     </VStack>

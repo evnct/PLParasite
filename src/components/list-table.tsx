@@ -48,7 +48,7 @@ const ListingTable = ({ leagueData }: { leagueData: ILeague }) => {
                     <VStack p='2'>
                         <Box borderWidth={2} borderRadius={15} p='2'
                             borderColor={changeBorderColorBasedOnRank(index)}>
-                            <HStack space={2} alignItems={'center'} justifyItems={'center'}>
+                            <HStack space={'4'} alignItems={'center'} justifyItems={'center'}>
                                 <Box bg='white' borderRadius={'full'} p='1'>
                                     <Image source={{
                                         uri: item.value.teamIcon,
