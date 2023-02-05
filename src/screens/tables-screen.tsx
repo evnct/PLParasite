@@ -1,10 +1,11 @@
-import { Divider, View } from 'native-base'
+import { View } from 'native-base'
+import { RefreshControl } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
 import Loader from '../components/loader';
 import ListingTable from '../components/list-table';
-import Podium from '../components/podium';
+import theme from '../theme';
 
 export default function TablesScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -23,9 +24,7 @@ export default function TablesScreen() {
     if (!leagueData) { return <Loader /> }
 
     return (
-        <View _dark={{ bg: '#30355E' }} px={2} flex={1}>
-            <Podium leagueData={leagueData} />
-            <Divider borderWidth={0.5} borderColor={'white'} w={'full'} mb='5' />
+        <View _dark={{ bg: theme.colors.fullbg[400] }} flex={1} py='16' pb='0'>
             <ListingTable leagueData={leagueData} />
         </View>
     );

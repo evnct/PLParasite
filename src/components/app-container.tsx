@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { NativeBaseProvider, Box, useColorMode } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import theme from '../theme'
 
 type Props = {

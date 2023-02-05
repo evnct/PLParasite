@@ -1,11 +1,12 @@
 import { Text, View, VStack, Center, Box, Select } from 'native-base';
-import { Image, ImageBackground, RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import { Image, ImageBackground } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { IStanding } from '../models/Standing';
 import { ILeague } from '../models/League';
 import Loader from '../components/loader';
 import Stats from '../components/stats';
+import theme from '../theme';
 
 export default function DataScreen() {
     const [leagueData, setLeagueData] = useState<ILeague | null>(null);
@@ -45,12 +46,12 @@ export default function DataScreen() {
     const teamLogo = () => (
         <Box alignItems={'center'} justifyContent={'center'}>
             <ImageBackground source={blur} style={{ width: 225, height: 225, position: 'absolute', zIndex: 0 }} />
-            <Box width={100} height={100} borderWidth={4} borderRadius={'full'} bg={'#fff'} borderColor={'#5849FF'} alignItems={'center'} justifyContent={'center'} shadow='5'>
+            <Box width={100} height={100} borderWidth={4} borderRadius={'full'} bg={theme.colors.iconbg[400]} borderColor={'#5849FF'} alignItems={'center'} justifyContent={'center'} shadow='5'>
                 <Image source={{
                     uri: selectedTeamData?.team.logos[0].href,
                     cache: 'force-cache',
                 }} style={{
-                    width: 70, height: 70,
+                    width: 80, height: 80,
                     resizeMode: 'contain',
                     zIndex: 1,
                 }} />
@@ -59,7 +60,7 @@ export default function DataScreen() {
     )
 
     return (
-        <View _dark={{ bg: '#30355E' }} flex={1} zIndex={1}>
+        <View _dark={{ bg: theme.colors.fullbg[400] }} flex={1} zIndex={1}>
             <VStack mt='20' mx='4'>
                 <Center>
                     <VStack space={4} alignItems={'center'} justifyContent='center'>
@@ -81,7 +82,7 @@ export default function DataScreen() {
                                 <Select.Item key={index} label={standing.team.shortDisplayName} value={standing.team.displayName} fontWeight={'black'} />
                             )}
                         </Select>
-                        <Box borderRadius={20} h='auto' w='xs' p='4' bg='#383D71' shadow={'2'}>
+                        <Box borderRadius={20} h='auto' w='xs' p='4' bg={theme.colors.supportbg[400]} shadow={'2'}>
                             <Stats selectedTeamData={selectedTeamData} />
                         </Box>
                     </VStack>

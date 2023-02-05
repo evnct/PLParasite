@@ -1,23 +1,41 @@
 import { VStack, Box, HStack, Text, View } from "native-base";
-import { SectionList, Image } from "react-native";
+import { SectionList, Image, RefreshControl } from "react-native";
 import { ILeague } from '../models/League';
+import theme from "../theme";
+import { useState, useCallback } from "react";
 
 const changeBorderColorBasedOnRank = (index: number) => {
     switch (index) {
         case 0:
-            return '#FFB649';
+            return theme.colors.first[400];
         case 1:
-            return '#7B61FF';
+            return theme.colors.second[400];
         case 2:
-            return '#E649FF';
+            return theme.colors.third[400];
         default:
             return 'white';
     }
 }
 
 const ListingTable = ({ leagueData }: { leagueData: ILeague }) => {
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
     return (
-        <SectionList scrollEnabled={true} showsVerticalScrollIndicator={false} scrollsToTop={true}
+        <SectionList
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            scrollsToTop={true}
+            refreshControl={
+                <RefreshControl progressBackgroundColor={'white'} tintColor={'white'} refreshing={refreshing} onRefresh={onRefresh} />
+            }
             sections={[
                 {
                     data: leagueData.data.standings.map((standing, index) => {
@@ -48,12 +66,12 @@ const ListingTable = ({ leagueData }: { leagueData: ILeague }) => {
                     <VStack p='2'>
                         <Box borderWidth={2} borderRadius={15} p='2'
                             borderColor={changeBorderColorBasedOnRank(index)}>
-                            <HStack space={'4'} alignItems={'center'} justifyItems={'center'}>
-                                <Box bg='white' borderRadius={'full'} p='1'>
+                            <HStack space={'4'} alignItems={'center'} justifyItems={'center'} justifyContent={'space-between'}>
+                                <Box bg={theme.colors.iconbg[400]} borderRadius={'full'} p='1'>
                                     <Image source={{
                                         uri: item.value.teamIcon,
                                         cache: 'force-cache',
-                                    }} style={{ width: 45, height: 45 }} />
+                                    }} style={{ width: 60, height: 60 }} />
                                 </Box>
                                 <Text fontSize={24}>{`${index + 1}. ${item.value.teamName}`}</Text>
                                 <Text fontSize={24}> {item.value.points} pts </Text>
