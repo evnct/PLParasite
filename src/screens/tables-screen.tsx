@@ -1,5 +1,4 @@
 import { View } from 'native-base'
-import { RefreshControl } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { fetchLeagueData } from '../api';
 import { ILeague } from '../models/League';
