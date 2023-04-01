@@ -7,7 +7,7 @@ const config = {
 
 const colors = {
   // Redefining only one shade, rest of the color will remain same.
-  fullbg: { 400: '#30355E' },
+  fullbg: { 400: '#FFF' },
   supportbg: { 400: '#383D71'},
   first: { 400: '#FFB649' },
   second: { 400: '#7B61FF' },
