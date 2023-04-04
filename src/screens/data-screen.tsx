@@ -1,4 +1,4 @@
-import { Text, View, VStack, Center, Box, Select } from "native-base";
+import { Text, View, VStack, Center, Select } from "native-base";
 import { Image } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { fetchLeagueData } from "../api";
@@ -7,7 +7,6 @@ import { ILeague } from "../models/League";
 import Loader from "../components/loader";
 import Stats from "../components/stats";
 import theme from "../theme";
-import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DataScreen() {
@@ -50,24 +49,13 @@ export default function DataScreen() {
   }
 
   const teamLogo = () => (
-    <Image
-      source={{
-        uri: selectedTeamData?.team.logos[0].href,
-        cache: "force-cache",
-      }}
-      style={{
-        width: 80,
-        height: 80,
-        resizeMode: "contain",
-        zIndex: 1,
-      }}
-    />
+    <Image source={{ uri: selectedTeamData?.team.logos[0].href, cache: "force-cache" }}
+      style={{ width: 100, height: 100, resizeMode: "contain", zIndex: 1 }} />
   );
 
   return (
-    <View _dark={{ bg: theme.colors.fullbg[400] }} flex={1} py='20'>
+    <View backgroundColor={theme.colors.white[1]} flex={1} py='20'>
       <SafeAreaView>
-        <StatusBar style="dark" />
           <Center>
             <VStack space={4} alignItems={"center"} justifyContent="center">
               {teamLogo()}
@@ -77,12 +65,12 @@ export default function DataScreen() {
                 borderRadius={"lg"}
                 fontSize={"xl"}
                 dropdownIcon={
-                  <Text fontSize={"xl"} px={"2"} color={"#5849FF"}>
+                  <Text fontSize={"xl"} px={"2"} color={theme.colors.purple[1]}>
                     ▼
                   </Text>
                 }
                 selectedValue={team}
-                color={'#333333'}
+                color={theme.colors.darkText[1]}
                 minWidth="200"
                 accessibilityLabel="Choose Team"
                 placeholder="Choose Team"

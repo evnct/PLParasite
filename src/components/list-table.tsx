@@ -1,4 +1,4 @@
-import { VStack, Box, HStack, Text, View } from "native-base";
+import { VStack, HStack, Text, View } from "native-base";
 import { SectionList, Image, RefreshControl } from "react-native";
 import { ILeague } from "../models/League";
 import theme from "../theme";
@@ -18,11 +18,9 @@ const ListingTable = ({ leagueData }: { leagueData: ILeague }) => {
     <SectionList
       scrollEnabled={true}
       showsVerticalScrollIndicator={false}
-      scrollsToTop={true}
       refreshControl={
         <RefreshControl
-          progressBackgroundColor={"white"}
-          tintColor={"white"}
+          progressBackgroundColor={theme.colors.purple[1]}
           refreshing={refreshing}
           onRefresh={onRefresh}
         />
@@ -56,27 +54,10 @@ const ListingTable = ({ leagueData }: { leagueData: ILeague }) => {
       renderItem={({ item, index }) => (
         <View>
           <VStack p="2">
-              <HStack
-                alignItems={"center"}
-                justifyItems={"center"}
-                justifyContent={"space-evenly"}
-              >
-                <Box bg={theme.colors.iconbg[400]} borderRadius={"full"} p="1">
-                  <Image
-                    source={{
-                      uri: item.value.teamIcon,
-                      cache: "force-cache",
-                    }}
-                    style={{ width: 60, height: 60 }}
-                  />
-                </Box>
-                <Text fontSize={24} color={"#222222"}>{`${index + 1}. ${
-                  item.value.teamName
-                }`}</Text>
-                <Text fontSize={24} color={"#222222"}>
-                  {" "}
-                  {item.value.points} pts{" "}
-                </Text>
+              <HStack alignItems={"center"} justifyContent={"space-between"}>
+                <Image source={{ uri: item.value.teamIcon, cache: "force-cache" }} style={{ width: 70, height: 70 }} />
+                <Text fontSize={24} color={theme.colors.darkText}>{`${index + 1}. ${item.value.teamName}`}</Text>
+                <Text fontSize={24} color={theme.colors.darkText}>{" "}{item.value.points} pts{" "}</Text>
               </HStack>
           </VStack>
         </View>

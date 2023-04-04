@@ -7,12 +7,10 @@ const config = {
 
 const colors = {
   // Redefining only one shade, rest of the color will remain same.
-  fullbg: { 400: '#FFF' },
-  supportbg: { 400: '#383D71'},
-  first: { 400: '#FFB649' },
-  second: { 400: '#7B61FF' },
-  third: { 400: '#E649FF' },
-  iconbg: { 400: '#FFF' },
+  white: { 1: '#FFF' },
+  purple: {1: '#5849FF'},
+  darkText: {1: '#222222'},
+  greyText: {1: '#929292'}
 }
 
 export default extendTheme({ config, colors})

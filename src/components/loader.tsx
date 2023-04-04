@@ -4,8 +4,8 @@ import theme from '../theme'
 
 export default function Loader() {
     return (
-        <Center flex={1} bg={theme.colors.fullbg[400]}>
-            <Spinner size="lg" color="#A065AB" />
+        <Center flex={1} backgroundColor={theme.colors.white[1]}>
+            <Spinner size="lg" color={theme.colors.purple[1]} />
         </Center>
     )
 }

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import DataScreen from "../screens/data-screen";
 import TablesScreen from "../screens/tables-screen";
+import theme from "../theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,10 +21,10 @@ export default function Navigator() {
             return <Ionicons name="trophy-outline" size={40} color={color} />;
           }
         },
-        tabBarActiveTintColor: "#222222",
-        tabBarInactiveTintColor: "#929292",
+        tabBarActiveTintColor: theme.colors.darkText[1],
+        tabBarInactiveTintColor: theme.colors.greyText[1],
         tabBarStyle: {
-          backgroundColor: "#FFF",
+          backgroundColor: theme.colors.white[1],
           borderTopWidth: 0,
         },
       })}
